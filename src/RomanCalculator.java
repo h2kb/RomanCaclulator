@@ -65,14 +65,14 @@ public class RomanCalculator {
         String[] tempStrings = expressionRNP.split(" ");
         Stack<Integer> stack = new Stack<>();
 
-        for (int i = 0; i < tempStrings.length; i++) {
-            if (isNumber(tempStrings[i])) {
-                stack.push(Integer.parseInt(tempStrings[i]));
+        for (String tempString : tempStrings) {
+            if (isNumber(tempString)) {
+                stack.push(Integer.parseInt(tempString));
             } else {
                 int num1 = stack.pop();
                 int num2 = stack.pop();
 
-                switch (tempStrings[i]) {
+                switch (tempString) {
                     case "+":
                         stack.push(num2 + num1);
                         break;

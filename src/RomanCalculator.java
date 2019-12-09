@@ -119,24 +119,60 @@ public class RomanCalculator {
         }
     }
 
+    static String prepareExpression(String exp) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < exp.length(); i++) {
+            char ch = exp.charAt(i);
+
+            if (ch == ' ') {
+                continue;
+            }
+
+            if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                builder.append(" ").append(ch).append(" ");
+            } else if (ch == '(') {
+                builder.append(ch).append(" ");
+            } else if (ch == ')') {
+                builder.append(" ").append(ch);
+            } else {
+                builder.append(ch);
+            }
+        }
+
+        String[] arrRawData = builder.toString().split(" ");
+
+        for (String str : arrRawData) {
+            switch (str) {
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                    result.append(" ").append(str).append(" ");
+                    break;
+                case "(":
+                    result.append(str).append(" ");
+                    break;
+                case ")":
+                    result.append(" ").append(str);
+                    break;
+                default:
+                    result.append(new RomanNumeral(str).toInt());
+                    break;
+            }
+        }
+
+        return result.toString();
+    }
+
     public static void main(String[] args) {
         System.out.println("Please enter a roman expression to calculate: ");
         Scanner in = new Scanner(System.in);
         String rawData = in.nextLine();
         in.close();
 
-        StringBuilder builder = new StringBuilder();
-        String[] arrRawData = rawData.split(" ");
-
-        for (String str : arrRawData) {
-            if (str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/") || str.equals("(") || str.equals(")")) {
-                builder.append(str);
-            } else {
-                builder.append(new RomanNumeral(str).toInt());
-            }
-        }
-
-        RomanNumeral result = new RomanNumeral(calculateResult(toRPN(builder.toString())));
+        RomanNumeral result = new RomanNumeral(calculateResult(toRPN(prepareExpression(rawData))));
         System.out.println(result.toString());
     }
 }

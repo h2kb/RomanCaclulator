@@ -3,18 +3,22 @@ import java.util.Stack;
 
 public class RomanCalculator {
 
+    public static class StringConstants {
+        static final String HEADLINE = "Please enter a roman expression to calculate: ";
+    }
+
     // Translation of the expression to Reverse Polish Notation
     static String toRPN(String expression) {
         StringBuilder builder = new StringBuilder();
         Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < expression.length(); i++) {
-            int priority = getPriority(expression.charAt(i));
-
             //We are working with a+b and a + b
             if (expression.charAt(i) == ' ') {
                 continue;
             }
+
+            int priority = getPriority(expression.charAt(i));
 
             //priority 0 are any numbers
             if (priority == 0) {
@@ -130,14 +134,22 @@ public class RomanCalculator {
                 continue;
             }
 
-            if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-                builder.append(" ").append(ch).append(" ");
-            } else if (ch == '(') {
-                builder.append(ch).append(" ");
-            } else if (ch == ')') {
-                builder.append(" ").append(ch);
-            } else {
-                builder.append(ch);
+            switch (ch) {
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                    builder.append(" ").append(ch).append(" ");
+                    break;
+                case '(':
+                    builder.append(ch).append(" ");
+                    break;
+                case ')':
+                    builder.append(" ").append(ch);
+                    break;
+                default:
+                    builder.append(ch);
+                    break;
             }
         }
 
@@ -167,12 +179,13 @@ public class RomanCalculator {
     }
 
     public static void main(String[] args) {
-        System.out.println("Please enter a roman expression to calculate: ");
+        System.out.println(StringConstants.HEADLINE);
         Scanner in = new Scanner(System.in);
         String rawData = in.nextLine();
         in.close();
 
-        RomanNumeral result = new RomanNumeral(calculateResult(toRPN(prepareExpression(rawData))));
+        String rpn = toRPN(prepareExpression(rawData));
+        RomanNumeral result = new RomanNumeral(calculateResult(rpn));
         System.out.println(result.toString());
     }
 }

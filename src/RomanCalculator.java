@@ -13,12 +13,6 @@ public class RomanCalculator {
 
         for (int i = 0; i < expression.length(); i++) {
             char ch = expression.charAt(i);
-
-            //Working with a+b and a + b
-            if (ch == ' ') {
-                continue;
-            }
-
             int priority = getPriority(ch);
 
             /*
@@ -112,15 +106,17 @@ public class RomanCalculator {
         }
     }
 
-    static boolean isNumber(String numAsString) {
+    //Check for the number
+    static boolean isNumber(String strNum) {
         try {
-            Integer.parseInt(numAsString);
+            Integer.parseInt(strNum);
             return true;
         } catch (NumberFormatException ex) {
             return false;
         }
     }
 
+    //Add spaces to separate characters
     static String prepareRawString(String str) {
         StringBuilder builder = new StringBuilder();
 
@@ -145,6 +141,7 @@ public class RomanCalculator {
         return builder.toString();
     }
 
+    //Replace roman numeral with arabic numeral
     static String replaceRoman(String str) {
         StringBuilder builder = new StringBuilder();
         String[] arrRawData = str.split(" ");

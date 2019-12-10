@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.util.Stack;
 
 public class RomanCalculator {
@@ -13,7 +12,7 @@ public class RomanCalculator {
         Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < expression.length(); i++) {
-            //We are working with a+b and a + b
+            //Working with a+b and a + b
             if (expression.charAt(i) == ' ') {
                 continue;
             }
@@ -123,69 +122,68 @@ public class RomanCalculator {
         }
     }
 
-    static String prepareExpression(String exp) {
+    static String prepareRawString(String str) {
         StringBuilder builder = new StringBuilder();
-        StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < exp.length(); i++) {
-            char ch = exp.charAt(i);
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
 
             if (ch == ' ') {
                 continue;
             }
 
-            switch (ch) {
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                    builder.append(" ").append(ch).append(" ");
-                    break;
-                case '(':
-                    builder.append(ch).append(" ");
-                    break;
-                case ')':
-                    builder.append(" ").append(ch);
-                    break;
-                default:
-                    builder.append(ch);
-                    break;
+            if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                builder.append(" ").append(ch).append(" ");
+            } else if (ch == '(') {
+                builder.append(ch).append(" ");
+            } else if (ch == ')') {
+                builder.append(" ").append(ch);
+            } else {
+                builder.append(ch);
             }
         }
 
-        String[] arrRawData = builder.toString().split(" ");
+        return builder.toString();
+    }
 
-        for (String str : arrRawData) {
-            switch (str) {
-                case "+":
-                case "-":
-                case "*":
-                case "/":
-                    result.append(" ").append(str).append(" ");
-                    break;
-                case "(":
-                    result.append(str).append(" ");
-                    break;
-                case ")":
-                    result.append(" ").append(str);
-                    break;
-                default:
-                    result.append(new RomanNumeral(str).toInt());
-                    break;
+    static String replaceRoman(String str) {
+        StringBuilder builder = new StringBuilder();
+        String[] arrRawData = str.split(" ");
+
+        for (String data : arrRawData) {
+            if (data.equals("+") || data.equals("-") || data.equals("*") || data.equals("/") || data.equals("(") || data.equals(")")) {
+                builder.append(data);
+            } else {
+                builder.append(new RomanNumeral(data).toInt());
             }
         }
 
-        return result.toString();
+        return builder.toString();
     }
 
     public static void main(String[] args) {
-        System.out.println(StringConstants.HEADLINE);
-        Scanner in = new Scanner(System.in);
-        String rawData = in.nextLine();
-        in.close();
+//        System.out.println(StringConstants.HEADLINE);
+//        Scanner in = new Scanner(System.in);
+//        String rawData = in.nextLine();
+//        in.close();
+//
+//        String rpn = toRPN(prepareExpression(rawData));
+//        RomanNumeral result = new RomanNumeral(calculateResult(rpn));
+//        System.out.println(result1.toString());
 
-        String rpn = toRPN(prepareExpression(rawData));
-        RomanNumeral result = new RomanNumeral(calculateResult(rpn));
-        System.out.println(result.toString());
+        System.out.print("Test 1 is: ");
+        String rpn1 = toRPN(replaceRoman(prepareRawString("(V+V)*II")));
+        RomanNumeral result1 = new RomanNumeral(calculateResult(rpn1));
+        System.out.println(result1.toString().equals("XX"));
+
+        System.out.print("Test 2 is: ");
+        String rpn2 = toRPN(replaceRoman(prepareRawString("(V+V)*(II-I)")));
+        RomanNumeral result2 = new RomanNumeral(calculateResult(rpn2));
+        System.out.println(result2.toString().equals("X"));
+
+        System.out.print("Test 3 is: ");
+        String rpn3 = toRPN(replaceRoman(prepareRawString("(XL + II)*(X - III) / III")));
+        RomanNumeral result3 = new RomanNumeral(calculateResult(rpn3));
+        System.out.println(result3.toString().equals("XCVIII"));
     }
 }

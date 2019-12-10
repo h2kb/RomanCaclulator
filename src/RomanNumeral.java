@@ -15,7 +15,9 @@ public class RomanNumeral {
     }
 
     public RomanNumeral(String roman) {
-        if (roman.length() == 0)
+        int romanLength = roman.length();
+
+        if (romanLength == 0)
             throw new NumberFormatException("An empty string does not define a Roman numeral.");
 
         roman = roman.toUpperCase();
@@ -23,7 +25,7 @@ public class RomanNumeral {
         int i = 0;
         int arabic = 0;
 
-        while (i < roman.length()) {
+        while (i < romanLength) {
 
             char letter = roman.charAt(i);
             int number = letterToNumber(letter);
@@ -33,7 +35,7 @@ public class RomanNumeral {
 
             i++;
 
-            if (i == roman.length()) {
+            if (i == romanLength) {
                 arabic += number;
             } else {
                 int nextNumber = letterToNumber(roman.charAt(i));

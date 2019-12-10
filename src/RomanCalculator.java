@@ -88,7 +88,7 @@ public class RomanCalculator {
         return stack.pop();
     }
 
-    //Get a priority of symbols or numbers
+    // Get a priority of symbols or numbers
     static int getPriority(char ch) {
         switch (ch) {
             case '*':
@@ -106,7 +106,7 @@ public class RomanCalculator {
         }
     }
 
-    //Check for the number
+    // Check for the number
     static boolean isNumber(String strNum) {
         try {
             Integer.parseInt(strNum);
@@ -116,7 +116,7 @@ public class RomanCalculator {
         }
     }
 
-    //Add spaces to separate characters
+    // Add spaces to separate characters
     static String prepareRawString(String str) {
         StringBuilder builder = new StringBuilder();
 
@@ -141,7 +141,7 @@ public class RomanCalculator {
         return builder.toString();
     }
 
-    //Replace roman numeral with arabic numeral
+    // Replace roman numeral with arabic numeral
     static String replaceRoman(String str) {
         StringBuilder builder = new StringBuilder();
         String[] arrRawData = str.split(" ");

@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 public class RomanCalculator {
 
@@ -108,12 +109,13 @@ public class RomanCalculator {
 
     // Check for the number
     static boolean isNumber(String strNum) {
-        try {
-            Integer.parseInt(strNum);
-            return true;
-        } catch (NumberFormatException ex) {
+        if (strNum == null) {
             return false;
         }
+
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+
+        return pattern.matcher(strNum).matches();
     }
 
     // Add spaces to separate characters
